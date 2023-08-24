@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Papa from 'papaparse'; // Make sure to import PapaParse correctly
+import Papa, { parse } from 'papaparse'; // Make sure to import PapaParse correctly
 import DatabaseContext from "./DatabaseContext";
 
 const DatabaseState = (props) => {
@@ -17,18 +17,21 @@ const DatabaseState = (props) => {
   const [dYear , setDYear] = useState([]);
   const [dFacility , setDFacility] = useState([]);
 
+  const[flag,setflag] = useState(false);
+
   const getData = ()=>{
     fetch('../src/assets/Database.csv')
       .then(response => response.text())
       .then(csvData => {
         const parsedData = Papa.parse(csvData, { header: true }).data;
         setMainData(parsedData);
+        //console.log(parsedData);
 
         const HostNames = new Set();
         parsedData.forEach(item => {
           HostNames.add(item.Host_Name);
         });
-        console.log(HostNames);
+        //console.log(HostNames);
         setHostName(HostNames);
 
         const DiscoveryM = new Set();
@@ -56,7 +59,7 @@ const DatabaseState = (props) => {
   }
 
   const  searchData = (name,method,year,facility)=>{
-
+      setflag(true);
       //console.log(name,method,year,facility);
       if(name!==""){
         dummyData = dummyData.filter(item =>{
@@ -82,16 +85,71 @@ const DatabaseState = (props) => {
         })
       }
 
-      //console.log(dummyData);
+      
+      setDummyData(dummyData);
+      console.log(dummyData);
+      const HostNames = new Set();
+        dummyData.forEach(item => {
+          HostNames.add(item.Host_Name);
+        });
+        //console.log(HostNames);
+        setHostName(HostNames);
+
+        const DiscoveryM = new Set();
+        dummyData.forEach(item =>{
+          DiscoveryM.add(item.Discovery_Method);
+        });
+        setDMethod(DiscoveryM);
+
+        const DiscoveryY = new Set();
+        dummyData.forEach(item=>{
+          DiscoveryY.add(item.Discovery_Year);
+        });
+        setDYear(DiscoveryY);
+        
+        const DiscoveryF = new Set();
+        dummyData.forEach(item=>{
+          DiscoveryF.add(item.Discovery_Station);
+        });
+        setDFacility(DiscoveryF);
+
+
   }
 
   const clearData = () =>{
     //console.log(mainData);
     setDummyData(mainData);
+    setflag(false);
+
+    const HostNames = new Set();
+    mainData.forEach(item => {
+      HostNames.add(item.Host_Name);
+    });
+    //console.log(HostNames);
+    setHostName(HostNames);
+
+    const DiscoveryM = new Set();
+    mainData.forEach(item =>{
+      DiscoveryM.add(item.Discovery_Method);
+    });
+    setDMethod(DiscoveryM);
+
+    const DiscoveryY = new Set();
+    mainData.forEach(item=>{
+      DiscoveryY.add(item.Discovery_Year);
+    });
+    setDYear(DiscoveryY);
+    
+    const DiscoveryF = new Set();
+    mainData.forEach(item=>{
+      DiscoveryF.add(item.Discovery_Station);
+    });
+    setDFacility(DiscoveryF);
+
   }
 
     return (
-      <DatabaseContext.Provider value={{ getData, mainData , hostName,dFacility,dMethod,dYear,searchData,clearData}}>
+      <DatabaseContext.Provider value={{ getData, mainData , hostName,dFacility,dMethod,dYear,searchData,clearData,dummyData,flag}}>
         {props.children}
       </DatabaseContext.Provider>
     );

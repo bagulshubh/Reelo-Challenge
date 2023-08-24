@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
-import DatabaseContest from "../Context/DatabaseContext";
+import DatabaseContext from "../Context/DatabaseContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const QueryField = () => {
-  const context = useContext(DatabaseContest);
+  const context = useContext(DatabaseContext);
   const hostName = context.hostName;
   const dFacility = context.dFacility;
   const dMethod = context.dMethod;
   const dYear = context.dYear;
   //console.log(hostName);
-
+  const flag = context.flag;
   //states to record what user wants to search
   const [name, setName] = useState("");
   const [facility, setFacility] = useState("");
@@ -20,7 +22,8 @@ const QueryField = () => {
       <div className="fileds-wrapper"> 
         <select
           name="name"
-          className="option"
+          className="options"
+           
           onChange={(event) => {
             const selectedValue = event.target.value;
             setName(selectedValue);
@@ -37,9 +40,8 @@ const QueryField = () => {
           ))}
         </select>
 
-
         <select name="dmethod"
-        className="option"
+        className="options"
           onChange={(event) => {
             const selectedValue = event.target.value;
             setMethod(selectedValue);
@@ -57,7 +59,7 @@ const QueryField = () => {
         </select>
 
         <select name="dyear"
-        className="option"
+        className="options"
           onChange={(event) => {
             const selectedValue = event.target.value;
             setYear(selectedValue);
@@ -75,7 +77,7 @@ const QueryField = () => {
         </select>
 
         <select name="dfacility"
-        className="option"
+          className="options"
           onChange={(event) => {
             const selectedValue = event.target.value;
             setFacility(selectedValue);
@@ -86,20 +88,35 @@ const QueryField = () => {
             Discovery Facility
           </option>
           {Array.from(dFacility).map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
+            
+              <option key={item} value={item}>
+                {item}
+              </option>
+          
           ))}
         </select>
       </div>
 
       {/* Think about making them  components Pros and cons */}
-      <div>
-        <div onClick={()=>{
-          context.searchData(name,method,year,facility);       
+      <div className="btn-wrapper">
+        <div className="btn" onClick={()=>{
+          if(name!=="" || facility!=="" || year!=="" || method!=="")
+            context.searchData(name,method,year,facility);
+          else{
+            toast.error('Search Query Required', {
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }       
         }}>Search</div>
 
-        <div onClick={()=>{
+        <div className="btn" onClick={()=>{
           setFacility("");
           setMethod("");
           setName("");

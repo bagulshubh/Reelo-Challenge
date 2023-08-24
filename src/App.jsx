@@ -7,7 +7,7 @@ import DatabaseContest from '../src/Context/DatabaseContext'
 function App() {
 
   const context = useContext(DatabaseContest);
-  
+  const flag = context.flag;
   useEffect(()=>{
     context.getData();
   },[]);
@@ -17,8 +17,14 @@ function App() {
     <div className='App'>
       <div className='container'>
        <QueryField ></QueryField>
-
-       <DataField></DataField>
+    {
+      !flag  ? (
+        <div>Exoplanets are planets outside the Solar System. Explore them here.</div>
+      ):(
+        <DataField></DataField>
+      )
+    }
+      
 
       </div>
 
