@@ -20,7 +20,7 @@ const DatabaseState = (props) => {
   const[flag,setflag] = useState(false);
 
   const getData = ()=>{
-    fetch('../src/assets/Database.csv')
+    fetch('https://graceful-sopapillas-3ea249.netlify.app/assets/Database.csv')
       .then(response => response.text())
       .then(csvData => {
         const parsedData = Papa.parse(csvData, { header: true }).data;
