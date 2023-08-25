@@ -5,12 +5,16 @@ const Field = (props) =>{
     //console.log(namearr);
     const name = props.name;
     const [namearr,setnamearr] = useState([]);
+    const [links,setlinks] =  useState([]);
     useEffect(()=>{
       setnamearr(props.content);
+      setlinks(props.links);
     },[props.content]);
     
     //const namearr = props.content;
     console.log("In filed",namearr);
+    console.log(links);
+    let i = 0;
   return (
     <div className='field-wrapper'>
       <div className='header'>
@@ -33,7 +37,12 @@ const Field = (props) =>{
       {
         namearr.map( item=>{
             return(
-                <div>{item}</div>
+                !links ? (
+                  <div>{item}</div>
+                ):(
+                  <a href={links[i++]} target='_blank'>{item}</a>
+                )
+                
             )
         } )
       }

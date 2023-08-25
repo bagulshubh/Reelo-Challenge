@@ -12,6 +12,7 @@ const DataField = () => {
   let dm = [];
   let df = [];
   let dy = [];
+  let  links = [];
 
   data.forEach(item => {
       hnamearr.push(item.Host_Name);
@@ -30,6 +31,13 @@ const DataField = () => {
       dy.push(item.Discovery_Year);
   });
 
+  for(let i = 0;i<namearr.length;i++){
+    let pname = namearr[i].replace(/ /g, "-");
+    let  hname = hnamearr[i].replace(" ", "%20");
+    let link = `https://exoplanetarchive.ipac.caltech.edu/overview/${hname}#planet_${pname}_collapsible`;
+    links.push(link);
+  }
+
   console.log("namearr: ",dy);
 
   return (
@@ -44,7 +52,7 @@ const DataField = () => {
           <div className='table-wrapper'>
             {
               <div className='table'>
-                <Field name = "Planet Name" content = {namearr}></Field>
+                <Field name = "Planet Name" content = {namearr} links = {links}></Field>
                 <Field name = "Host Name" content = {hnamearr}></Field>
                 <Field name = "Discovery Method" content = {dm}></Field>
                 <Field name = "Discovery Year" content = {dy}></Field>
