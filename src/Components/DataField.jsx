@@ -6,7 +6,7 @@ const DataField = () => {
 
   const context = useContext(DatabaseContext);
   const data = context.dummyData;
-  console.log(data);
+
   let  hnamearr = [];
   let namearr = [];
   let dm = [];
@@ -21,15 +21,19 @@ const DataField = () => {
   data.forEach(item => {
       namearr.push(item.Planet_Name);
   });
+
   data.forEach(item => {
       dm.push(item.Discovery_Method);
   });
+
   data.forEach(item => {
       df.push(item.Discovery_Station);
   });
+
   data.forEach(item => {
       dy.push(item.Discovery_Year);
   });
+
 
   for(let i = 0;i<namearr.length;i++){
     let pname = namearr[i].replace(/ /g, "-");
@@ -38,17 +42,16 @@ const DataField = () => {
     links.push(link);
   }
 
-  console.log("namearr: ",dy);
 
   return (
     <div className='data-wrapper'>
 
       {
-        !data ? (
-          <div>Data is not present</div>
+        data.length === 0 ? (
+          <div className='align'>Data is not present</div>
         ):(
           
-          //need four colums to store the data in those coloums
+          //need five colums to store the data in those coloums
           <div className='table-wrapper'>
             {
               <div className='table'>
@@ -63,8 +66,6 @@ const DataField = () => {
 
         )
       }
-
-
     </div>
   )
 }

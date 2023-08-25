@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Papa, { parse } from 'papaparse'; // Make sure to import PapaParse correctly
+import Papa from 'papaparse'; 
 import DatabaseContext from "./DatabaseContext";
 
 const DatabaseState = (props) => {
@@ -25,13 +25,12 @@ const DatabaseState = (props) => {
       .then(csvData => {
         const parsedData = Papa.parse(csvData, { header: true }).data;
         setMainData(parsedData);
-        //console.log(parsedData);
 
         const HostNames = new Set();
         parsedData.forEach(item => {
           HostNames.add(item.Host_Name);
         });
-        //console.log(HostNames);
+        
         setHostName(HostNames);
 
         const DiscoveryM = new Set();
@@ -60,7 +59,7 @@ const DatabaseState = (props) => {
 
   const  searchData = (name,method,year,facility)=>{
       setflag(true);
-      //console.log(name,method,year,facility);
+      
       if(name!==""){
         dummyData = dummyData.filter(item =>{
           return  item.Host_Name === name;
@@ -87,12 +86,12 @@ const DatabaseState = (props) => {
 
       
       setDummyData(dummyData);
-      console.log(dummyData);
+      
       const HostNames = new Set();
         dummyData.forEach(item => {
           HostNames.add(item.Host_Name);
         });
-        //console.log(HostNames);
+       
         setHostName(HostNames);
 
         const DiscoveryM = new Set();
@@ -117,7 +116,7 @@ const DatabaseState = (props) => {
   }
 
   const clearData = () =>{
-    //console.log(mainData);
+    
     setDummyData(mainData);
     setflag(false);
 
@@ -125,7 +124,7 @@ const DatabaseState = (props) => {
     mainData.forEach(item => {
       HostNames.add(item.Host_Name);
     });
-    //console.log(HostNames);
+    
     setHostName(HostNames);
 
     const DiscoveryM = new Set();
